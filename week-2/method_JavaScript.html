@@ -6,29 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>week-2_JavaScript</title>
 </head>
-<body>
-    
+<body>Please refer to the browser's console in developer tools, thanks.</br>
 </body>
     <script>
         // 【要求一】
+        console.log("【要求一】");
         function calculate(min, max, step){
-                let result=0;
-                for(let n=min; n<=max; n+=step){
-                    result = result + n;
+                let result = 0;
+                for(let i=min; i<=max; i+=step){
+                    result += i;
                 }
                 console.log(result);
         }
         calculate(1, 3, 1); // 你的程式要能夠計算 1+2+3，最後印出 6
-        // calculate(4, 8, 2); // 你的程式要能夠計算 4+6+8，最後印出 18
-        // calculate(-1, 2, 2); // 你的程式要能夠計算 -1+1，最後印出 0
+        calculate(4, 8, 2); // 你的程式要能夠計算 4+6+8，最後印出 18
+        calculate(-1, 2, 2); // 你的程式要能夠計算 -1+1，最後印出 0
         
         // 【要求二】
+        console.log("【要求二】");
         function avg(data){
-        // 請用你的程式補完這個函式的區塊
-                for(let i=0; i=data.employees.length; i=i+1){
-                    console.log(data.employees[i]);
+                let count = 0, sumSalary = 0, result = 0;
+                for(let i=0; i<data.employees.length; i++){
+                    if(data.employees[i].manager==false){
+                        count++;
+                        sumSalary += data.employees[i].salary;
+                    }
                 };
-                // console.log(data.employees.length);
+                result = sumSalary / count;
+                console.log(result);
         }
         avg({
             "employees":[
@@ -54,5 +59,78 @@
                 }
             ]
         }); // 呼叫 avg 函式
+        
+        // 【要求三】
+        console.log("【要求三】");
+        function func(a){
+                return function (b, c){
+                    let result = a+(b*c);
+                    console.log(result);
+                    }
+        }
+        func(2)(3, 4); // 你補完的函式能印出 2+(3*4) 的結果 14
+        func(5)(1, -5); // 你補完的函式能印出 5+(1*-5) 的結果 0
+        func(-3)(2, 9); // 你補完的函式能印出 -3+(2*9) 的結果 15
+        // 一般形式為 func(a)(b, c) 要印出 a+(b*c) 的結果
+
+        // 【要求四】
+        console.log("【要求四】");
+        function maxProduct(nums){
+                let arrayProduct = [];
+                for(let i=0; i<nums.length; i++){
+                    for(let j=i+1; j<nums.length; j++){
+                        let result = nums[i]*nums[j];
+                        arrayProduct.push(result);
+                    }
+                }
+                let maxProductResult = Math.max(...arrayProduct);
+                console.log(maxProductResult);
+        }
+        maxProduct([5, 20, 2, 6]) // 得到 120
+        maxProduct([10, -20, 0, 3]) // 得到 30
+        maxProduct([10, -20, 0, -3]) // 得到 60
+        maxProduct([-1, 2]) // 得到 -2
+        maxProduct([-1, 0, 2]) // 得到 0 或 -0
+        maxProduct([5, -1, -2, 0]) // 得到 2
+        maxProduct([-5, -2]) // 得到 10
+
+        // 【要求五】
+        console.log("【要求五】");
+        function twoSum(nums, target){
+                for(let i=0; i<nums.length; i++){
+                    for(let j=i+1; j<nums.length; j++){
+                        if(nums[i]+nums[j]==target){
+                            let sumResult = `[${i}, ${j}] because nums[${i}]+nums[${j}] is ${target}.`;
+                            return sumResult;
+                            break;
+                        }
+                    }
+                }
+
+        }
+        let result=twoSum([2, 11, 7, 15], 9);
+        console.log(result); // show [0, 2] because nums[0]+nums[2] is 9 
+                             // 請問 [0, 2] 調整為 [2, 7] 會較佳嗎?
+
+        // 【要求六】
+        console.log("【要求六】");
+        function maxZeros(nums){
+                nums.push(1);                           // 在陣列的最後一個資料補1，以簡化判斷條件，方便最後結算
+                let len = 0, arrayLen = [0];            // 定義變數len:計算累計長度、陣列arrayLen:記錄所有的累計長度(len)且預設為0(陣列nums無任何0)
+                for(let i=0; i<nums.length; i++){
+                    if(nums[i]==0){                     // 【情況1】若此次迴圈的值為0
+                        len++;                          // 【情況1】則累計長度(len)加1
+                    }else if(nums[i]!=0 && len>0){      // 【情況2】若此次迴圈的值為1、且累計長度(len)大於0，表示前一次迴圈是累計長度(len)的終點
+                        arrayLen.push(len);             // 【情況2】則將累計長度(len)寫入陣列arrayLen中
+                        len = 0;                        // 【情況2】且重新計算累計長度(len)
+                    }                                   // 【情況其它】繼續下一個迴圈
+                }
+                let result = Math.max(...arrayLen);     // 取出陣列arrayLen當中的最大值
+                console.log(result);
+        }
+        maxZeros([0, 1, 0, 0]); // 得到 2
+        maxZeros([1, 0, 0, 0, 0, 1, 0, 1, 0, 0]); // 得到 4
+        maxZeros([1, 1, 1, 1, 1]); // 得到 0
+        maxZeros([0, 0, 0, 1, 1]) // 得到 3
     </script>
 </html>
