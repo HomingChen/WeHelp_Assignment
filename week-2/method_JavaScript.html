@@ -100,7 +100,7 @@
                 for(let i=0; i<nums.length; i++){
                     for(let j=i+1; j<nums.length; j++){
                         if(nums[i]+nums[j]==target){
-                            let sumResult = `[${i}, ${j}] because nums[${i}]+nums[${j}] is ${target}.`;
+                            let sumResult = `[${i}, ${j}]`;
                             return sumResult;
                             break;
                         }
@@ -110,7 +110,6 @@
         }
         let result=twoSum([2, 11, 7, 15], 9);
         console.log(result); // show [0, 2] because nums[0]+nums[2] is 9 
-                             // 請問 [0, 2] 調整為 [2, 7] 會較佳嗎?
 
         // 【要求六】
         console.log("【要求六】");
