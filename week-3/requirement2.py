@@ -19,6 +19,7 @@ def getData(url, pages):
         url = "https://www.ptt.cc" + nextPageURL
         print(p)
         p += 1
+    data.sort()
     return data
 
 data = getData(url,10)
