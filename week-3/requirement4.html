@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="requirement34.css">
+    <title>Document</title>
+</head>
+<body style="margin: 0px;">
+    <nav class="navbar">
+        <div>My Website</div>
+        <ul class="desktop_menu">
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+            <li>Item 4</li>
+        </ul>
+        <div class="mobile_menu"><img src="pic_NavBar.png" /></div>
+    </nav>
+    <div class="banner_content">Welcome to MyHome</div>
+    <div class="main_content">
+        <div class="promo_content"; id="promo_div">
+            <!-- Add promo_content here -->
+        </div>
+        <div class="title_content"; id="title_div">
+            <!-- Add title_content here -->
+        </div>
+        <div class="button"; id="button_div">
+            <!-- Add button here -->
+        </div>
+    </div>
+    <script>
+        const url = "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json";
+        let place = new Array();
+        let getData = ()=>{
+            fetch(url).then(function(response){
+                return response.json();
+            }).then(function(data){
+                for(let i=0; i<data["result"]["results"].length; i++){
+                    place.push(data["result"]["results"][i]);
+                    let placeFile = place[i].file + "@";
+                    const regexp = /(https).+?(?=(https|@))/g;
+                    let placeFile_regexped = placeFile.match(regexp);
+                    place[i].file_splited = placeFile_regexped;
+                }
+                loadData(2, 'promo_div');
+                loadData(8, 'title_div');
+                if(place.length>0){
+                    let buttonDivTabs = document.getElementById("button_div");
+                    let buttonTabs = document.createElement("button");
+                    buttonTabs.setAttribute("onclick","loadData(8, 'title_div')");
+                    buttonTabs.textContent = "Load More Sites...";
+                    buttonDivTabs.appendChild(buttonTabs);
+                }
+            })
+        }
+        getData();
+        let loadData = (items, tabID)=>{
+            if(items>place.length){items=place.length}
+            for(let i=0; i<items; i++){
+                let contentDivTabs = document.getElementById(tabID);
+                let contentFigTabs = document.createElement("figure");
+                let contentImgTabs = document.createElement("img");
+                let contentFigcapTabs = document.createElement("figcaption");
+                contentImgTabs.setAttribute("src", place[i].file_splited[0]);
+                contentFigcapTabs.textContent = place[i].stitle;
+                contentFigTabs.appendChild(contentImgTabs);
+                contentFigTabs.appendChild(contentFigcapTabs);
+                contentDivTabs.appendChild(contentFigTabs);
+            }
+            place.splice(0, items);
+            console.log(place.length);
+            if(place.length==0){
+                let buttonTabs = document.getElementById("button_div");
+                buttonTabs.remove();
+            }
+        }
+    </script>
+</body>
+</html>

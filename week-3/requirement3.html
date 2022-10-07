@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="requirement34.css">
+    <title>Document</title>
+</head>
+<body style="margin: 0px;">
+    <nav class="navbar">
+        <div>My Website</div>
+        <ul class="desktop_menu">
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+            <li>Item 4</li>
+        </ul>
+        <div class="mobile_menu"><img src="pic_NavBar.png" /></div>
+    </nav>
+    <div class="banner_content">Welcome to MyHome</div>
+    <div class="main_content">
+        <div class="promo_content"; id="promo_div">
+            <!-- Add promo_content here -->
+        </div>
+        <div class="title_content"; id="title_div">
+            <!-- Add title_content here -->
+        </div>
+    </div>
+    <script>
+        let place = new Array();
+        let getData = ()=>{
+            fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json").then(function(response){
+                return response.json();
+            }).then(function(data){
+                for(let i=0; i<data["result"]["results"].length; i++){
+                    place.push(data["result"]["results"][i]);
+                    let placeFile = place[i].file + "@";
+                    const regexp = /(https).+?(?=(https|@))/g;
+                    let placeFile_regexped = placeFile.match(regexp);
+                    // console.log(i, placeFile_regexped);
+                    place[i].file_splited = placeFile_regexped;
+                }
+                for(let i=0; i<2; i++){
+                    let promoDivTabs = document.getElementById("promo_div");
+                    let promoFigTabs = document.createElement("figure");
+                    let promoImgTabs = document.createElement("img");
+                    let promoFigcapTabs = document.createElement("figcaption");
+                    promoImgTabs.setAttribute("src", place[i].file_splited[0]);
+                    promoFigcapTabs.textContent = place[i].stitle;
+                    promoFigTabs.appendChild(promoImgTabs);
+                    promoFigTabs.appendChild(promoFigcapTabs);
+                    promoDivTabs.appendChild(promoFigTabs);
+                }
+                for(let i=2; i<10; i++){
+                    let titleDivTabs = document.getElementById("title_div");
+                    let titleFigTabs = document.createElement("figure");
+                    let titleImgTabs = document.createElement("img");
+                    let titleFigcapTabs = document.createElement("figcaption");
+                    titleImgTabs.setAttribute("src", place[i].file_splited[0]);
+                    titleFigcapTabs.textContent = place[i].stitle;
+                    titleFigTabs.appendChild(titleImgTabs);
+                    titleFigTabs.appendChild(titleFigcapTabs);
+                    titleDivTabs.appendChild(titleFigTabs);
+                }
+            })
+        }
+        getData();
+    </script>
+</body>
+</html>
