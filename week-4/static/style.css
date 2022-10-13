@@ -1,0 +1,34 @@
+.frame{
+    margin: 0% 25%;
+    width: 50%;
+    border: solid gainsboro;
+    background-color: whitesmoke;
+}
+.title{
+    padding: 0.5em;
+    background-color: darkolivegreen;
+    color: whitesmoke;
+    text-align: center;
+    font-size: 1.5em;
+}
+.content{
+    padding: 0.3em;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.content label{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    margin: 0.5em;
+    font-size: 1em;
+    font-weight: normal;
+}
+@media (max-width:600px){
+    .frame{
+        margin: 5%;
+        width: 90%;
+    }
+}
