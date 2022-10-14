@@ -22,14 +22,37 @@
             </form>
         </div>
         <hr>
-        <div class="content">計算正整數的平方
-            <form action="/calculate">
+        <div class="content">計算正整數的平方(顯示query string)
+            <form id="calculate">
                 <label>正整數
                     <input type="number" name="inputNumber">
                 </label>
-                <button>計算</button>
+                <button onclick="calculate1()">計算</button>
             </form>
         </div>
+        <hr>
+        <div class="content">計算正整數的平方(移除query string)
+            <div>
+                <label>正整數
+                    <input type="number" name="inputNumber">
+                </label>
+                <button onclick="calculate2()" id="calculate2">計算</button>
+            </div>
+        </div>
     </div>
+    <script>
+        let calculate1 = ()=>{
+            let data = document.getElementsByName("inputNumber")[0].value;
+            let action = "/square/"+data;
+            document.getElementById("calculate").setAttribute("action", action);
+        }
+        let calculate2 = ()=>{
+            let data = document.getElementsByName("inputNumber")[1].value;
+            let action = "/square/"+data;
+            let redirect = function(){location.href = action;}
+            document.getElementById("calculate2").onclick = redirect();
+            redirect();
+        }
+    </script>
 </body>
 </html>

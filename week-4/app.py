@@ -37,10 +37,10 @@ def signout():
     session["userStatus"] = "未登入"
     return render_template("signout.html")
 
-@app.route("/calculate")
-def calculate():
-    inputNumber = request.args.get("inputNumber","notNumber")
-    return redirect("/square/"+str(inputNumber))
+# @app.route("/calculate")
+# def calculate():
+#     inputNumber = request.args.get("inputNumber","notNumber")
+#     return redirect("/square/"+str(inputNumber))
 
 @app.route("/square/<inputNumber>")
 def square(inputNumber):
