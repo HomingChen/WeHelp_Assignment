@@ -52,9 +52,7 @@
         // 以下改為按鈕式的連結
         let calculate2 = ()=>{
             let data = document.getElementsByName("inputNumber")[0].value;
-            let action = "/square/"+data;
-            let redirect = function(){location.href = action;}
-            redirect();
+            location.href = "/square/"+data;
         }
     </script>
 </body>
