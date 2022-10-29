@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <title>week-6_assignment</title>
+</head>
+<body>
+    <div class="frame">
+        <div class="title">歡迎光臨，請輸入帳號密碼</div>
+        <div class="content">註冊帳號
+            <form action="/signup" method="POST">
+                <label>姓名
+                    <input type="text" name="name_signup"/>
+                </label>
+                <label>帳號
+                    <input type="text" name="username_signup"/>
+                </label>
+                <label>密碼
+                    <input type="password" name="password_signup"/>
+                </label>
+                <button>註冊</button>
+            </form>
+        </div>
+        <hr>
+        <div class="content">登入系統
+            <form action="/signin" method="POST">
+                <label>帳號
+                    <input type="text" name="username"/>
+                </label>
+                <label>密碼
+                    <input type="password" name="password"/>
+                </label>
+                <button>登入</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        let newbie = (signupResult)=>{
+            if(signupResult=="新註冊"){
+                alert("註冊成功! 請重新輸入帳號密碼以登入系統");
+            }else{
+                null;
+            }
+        }
+        newbie("{{newbie}}");
+    </script>
+</body>
+</html>
