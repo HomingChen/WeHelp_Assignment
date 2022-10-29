@@ -1,3 +1,4 @@
+from multiprocessing import parent_process
 import mysql.connector              # 連接MySQL資料庫
 from collections import namedtuple  # MySQL傳回的資料型態為tuple(即table的每一row)組合而成的list；利用namedtuple將tuple內的每個元素給予對應名稱(類似dictionary)，避免資料庫異動而有問題
 
@@ -5,8 +6,8 @@ websiteDB = mysql.connector.connect(host="localhost", user="root", password="789
 cursor = websiteDB.cursor()         # cursor: 類似暫存檔，在隨著執行各種查詢或輸入資料時，會將結果暫存於此
 
 def login(username, password):
-  queryStr = f"SELECT * FROM member WHERE username='{username}';"
-  cursor.execute(queryStr)
+  queryStr = "SELECT * FROM member WHERE username=%(username)s;"
+  cursor.execute(queryStr, params={'username': username})
   try:
     result = cursor.fetchone()
     memberData = namedtuple("memberData", cursor.column_names)._make(result)._asdict()
@@ -17,18 +18,17 @@ def login(username, password):
       memberData = {"userStatus": "帳號、或密碼輸入錯誤"}
   except:
     memberData = {"userStatus": "帳號、或密碼輸入錯誤"}
-  print(memberData)
   return memberData
 
 def signup(name, username, password):
   if len(name)*len(username)*len(password)==0:
     return "請勿輸入空白資料"
   else:
-    queryStr = f"SELECT username FROM member WHERE username='{username}';"
-    cursor.execute(queryStr)
+    queryStr = "SELECT username FROM member WHERE username=%(username)s;"
+    cursor.execute(queryStr, params={"username": username})
     if len(cursor.fetchall())==0:
-      inputStr = f"INSERT INTO member(name, username, password) VALUE ('{name}','{username}','{password}');"
-      cursor.execute(inputStr)
+      inputStr = "INSERT INTO member(name, username, password) VALUE (%s, %s, %s);"
+      cursor.execute(inputStr, params=(name, username, password))
       websiteDB.commit()
       return "註冊成功"
     else:
@@ -36,8 +36,8 @@ def signup(name, username, password):
 
 def sendMessage(member_id=0, content=""):
   if member_id!=0 and len(content)>0:
-    inputStr = f"INSERT INTO message(member_id, content) VALUE ({member_id}, '{content}');"
-    cursor.execute(inputStr)
+    inputStr = "INSERT INTO message(member_id, content) VALUE (%s, %s);"  # MySQL以%s接收%i或%d，也不用刻意補'符號
+    cursor.execute(inputStr, params=(member_id, content))
     websiteDB.commit()
     print("送出成功")
   else:
@@ -48,7 +48,7 @@ def getMessages():
              SELECT message.id, member.name, message.content, message.like_count, message.time
               FROM message INNER JOIN member ON message.member_id=member.id ORDER BY time;;
              """
-  cursor.execute(queryStr)
+  cursor.execute(queryStr, params=None)
   queryResult = cursor.fetchall()
   messages = []
   for i in queryResult:
