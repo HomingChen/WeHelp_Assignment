@@ -40,6 +40,8 @@ def memberData():
         else: 
             pass
         return jsonify(result)
+    else:
+        return redirect("/member")
 
 @app.route("/member")
 def member():
