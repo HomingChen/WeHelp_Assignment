@@ -6,7 +6,7 @@ app.secret_key="welovepengpeng"
 
 @app.route("/")
 def index():
-    if session["userStatus"]!="新註冊":
+    if session.get("userStatus")=="新註冊":                      # 若session["客製屬性"]未新增，則有直接取用會可能出錯；可改用if session.get("客製屬性")來判斷
         return render_template("index.html", newbie="未登入")
     else:
         return render_template("index.html", newbie="新註冊")
