@@ -31,11 +31,11 @@ def memberData():
             result = sql.searchName(username=username)
             return jsonify(result)
         else:
-            return jsonify({"data": "null"})
+            return jsonify({"data": None})
     elif request.method=="PATCH":
         newName = request.get_json()
         result = sql.updateName(newName=newName["name"], id=session["data"]["id"])
-        if result.get("ok")=="true": 
+        if result.get("ok")==True: 
             session["data"]["name"] = newName
         else: 
             pass

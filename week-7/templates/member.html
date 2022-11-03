@@ -44,7 +44,7 @@
             ).then(function(response){
                 return response.json();
             }).then(function(data){
-                let result = (data["data"]=="null") ? 
+                let result = (data["data"]==null) ? 
                     ("查無此帳號，請重新確認") : (`${data["data"]["name"]}(${data["data"]["username"]})`);
                 updateResult(result, "searchName");
             })
@@ -58,7 +58,7 @@
             }).then(function(response){
                 return response.json();
             }).then(function(data){
-                let result = data["ok"]=="true" ? "更新成功":"更新失敗";
+                let result = data["ok"]==true ? "更新成功":"更新失敗";
                 updateResult(result,"updateName");
                 let updateWelcomName = (result=="更新成功") ? (updateResult(newName, "updateWelcomName")) : (null);
                 let updateSearchName = (result=="更新成功") ? (searchName()) : (null);

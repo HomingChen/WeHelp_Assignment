@@ -14,10 +14,10 @@ def login(username, password):
       loginResult = "登入成功"
       del memberData["password"]
     else:
-      memberData = "null"
+      memberData = None
       loginResult = "帳號、或密碼輸入錯誤"
   except:
-    memberData = "null"
+    memberData = None
     loginResult = "帳號、或密碼輸入錯誤"
   return {"loginResult": loginResult, "memberData": memberData}
 
@@ -26,7 +26,7 @@ def searchName(username):
   cursor.execute(queryStr, params={"username": username})
   result = cursor.fetchone()
   if result==None:
-    return {"data": "null"}
+    return {"data": None}
   else:
     searchData = namedtuple("message", cursor.column_names)._make(result)._asdict()
     return {"data": searchData}
@@ -36,6 +36,6 @@ def updateName(newName, id):
   try:
     cursor.execute(queryStr, params=(newName, id))
     websiteDB.commit()
-    return {"ok": "true"}
+    return {"ok": True}
   except:
-    return {"error": "true"}
+    return {"error": True}
