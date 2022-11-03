@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <title>week-7_assignment</title>
+</head>
+<body>
+    <div class="frame" id="0">
+        <div class="title">歡迎光臨，這是會員頁</div>
+        <div class="content">
+            <p><span id="updateWelcomName">{{name}}</span>，歡迎登入系統</p>
+            <a href="/signout">登出系統</a>
+        </div>
+        <hr>
+        <div class="content">
+            <form onsubmit="searchName(); return false">
+                <p>查詢會員姓名</p>
+                <label>
+                    <input type="text" id="username"/>
+                    <button>查詢</button>
+                </label>
+            </form>
+            <span id="searchName"></span>
+        </div>
+        <hr>
+        <div class="content">
+            <form onsubmit="updateName(); return false">
+                <p>更新我的姓名</p>
+                <label>
+                    <input type="text" id="newName"/>
+                    <button>更新</button>
+                </label>
+            </form>
+            <span id="updateName"></span>
+        </div>
+    </div>
+    <script>
+        let searchName = ()=>{
+            username = document.getElementById("username").value;
+            fetch(`/api/member?username=${username}`, {"method": "GET"}
+            ).then(function(response){
+                return response.json();
+            }).then(function(data){
+                let result = (data["data"]=="null") ? 
+                    ("查無此帳號，請重新確認") : (`${data["data"]["name"]}(${data["data"]["username"]})`);
+                updateResult(result, "searchName");
+            })
+        }
+        let updateName = ()=>{
+            newName = document.getElementById("newName").value;
+            fetch("/api/member", {
+                "method": "PATCH", 
+                "headers": {"Content-Type": "application/json"},
+                "body": JSON.stringify({"name":`${newName}`})
+            }).then(function(response){
+                return response.json();
+            }).then(function(data){
+                let result = data["ok"]=="true" ? "更新成功":"更新失敗";
+                updateResult(result,"updateName");
+                let updateWelcomName = (result=="更新成功") ? (updateResult(newName, "updateWelcomName")) : (null);
+                let updateSearchName = (result=="更新成功") ? (searchName()) : (null);
+            })
+        }
+        let updateResult = (result, tabID)=>{
+            document.getElementById(tabID).innerText = result;
+        }
+    </script>
+</body>
+</html>
